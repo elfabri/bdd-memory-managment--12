@@ -1,1 +1,4 @@
 result
+.cache/
+meson.build
+subprojects/
