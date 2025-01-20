@@ -1,4 +1,5 @@
 result
+test
 .cache/
 meson.build
 subprojects/
