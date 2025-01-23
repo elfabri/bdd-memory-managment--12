@@ -28,7 +28,7 @@
 #include <stdlib.h>
 
 stack_t *stack_new(size_t capacity) {
-  stack_t *stack_ptr = malloc(capacity);
+  stack_t *stack_ptr = malloc(sizeof(stack_t));
   if (stack_ptr == NULL) {
     return NULL;
   }
