@@ -26,17 +26,20 @@
 
 void stack_push(stack_t *stack, void *obj) {
   if (stack->capacity == stack->count) {
-    void *biggerStack = malloc(stack->count * 2);
+    stack->capacity *= 2;
+    // this also pass the test
+    // void *biggerStack = realloc(stack->data, stack->capacity * sizeof(void *));
+    void **biggerStack = realloc(stack->data, stack->capacity * sizeof(void *));
     if (biggerStack == NULL) {
-      free(stack);
+      free(stack->data);
       exit(1);
     }
-    stack->capacity *= 2;
     stack->data = biggerStack;
   }
 
   stack->data[stack->count] = obj;
   stack->count++;
+  return;
 }
 
 // don't touch below this line
