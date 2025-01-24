@@ -17,15 +17,14 @@ bool snek_array_set(snek_object_t *snek_obj, size_t index, snek_object_t *value)
   }
   if (snek_obj->data.v_array.elements[index] != NULL) {
     // there is something at that index with
-    // a refcount already set
-    snek_obj->data.v_array.elements[index] = value;
-    refcount_dec(snek_obj->data.v_array.elements[index]);  // not sure why this
-                                                           // but it's in the
-                                                           // steps to refcount arrays
+    // a refcount already set, we get rid of it
+    refcount_dec(snek_obj->data.v_array.elements[index]);
     return true;
   }
+
+  refcount_inc(value);
+  // set the new element with it's ref count
   snek_obj->data.v_array.elements[index] = value;
-  refcount_inc(snek_obj->data.v_array.elements[index]);
   return true;
 }
 
