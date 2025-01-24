@@ -15,6 +15,15 @@ bool snek_array_set(snek_object_t *snek_obj, size_t index, snek_object_t *value)
   if (index >= snek_obj->data.v_array.size) {
     return false;
   }
+  if (snek_obj->data.v_array.elements[index] != NULL) {
+    // there is something at that index with
+    // a refcount already set
+    snek_obj->data.v_array.elements[index] = value;
+    refcount_dec(snek_obj->data.v_array.elements[index]);  // not sure why this
+                                                           // but it's in the
+                                                           // steps to refcount arrays
+    return true;
+  }
   snek_obj->data.v_array.elements[index] = value;
   refcount_inc(snek_obj->data.v_array.elements[index]);
   return true;
@@ -39,6 +48,7 @@ void refcount_free(snek_object_t *obj) {
     for (int i = 0; i < obj->data.v_array.size; i++) {
       refcount_dec(obj->data.v_array.elements[i]);
     }
+    free(obj->data.v_array.elements);
     break;
   default:
     assert(false);
