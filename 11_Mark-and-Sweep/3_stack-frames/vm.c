@@ -35,6 +35,7 @@ void frame_free(frame_t *frame) {
     return;
   }
   stack_free(frame->references);
+  free(frame);
 }
 
 // don't touch below this line
